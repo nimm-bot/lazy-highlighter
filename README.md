@@ -31,8 +31,8 @@ HTML example:
         Hover on me!
     </span>
 </div>
-<div>
-    <span data-lazy-highlighter-id="demo">
+<div data-lazy-highlighter-id="demo">
+    <span>Lorem ipsum</span>
 </div>
 ```
 

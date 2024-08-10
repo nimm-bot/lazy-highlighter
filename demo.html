@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lazy highlighter demo</title>
+    <script src="./src/js/lazy-highlighter.js" type="text/javascript"></script>
+    <link href="./src/css/demo.css" rel="stylesheet">
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div class="content">
+        <h1>Usage, structure and relations</h1>
+        <br/><br/>
+        <iframe id="demo_1-1" src="./demos/1-1.html"></iframe>
+        <iframe id="demo_1-many" src="./demos/1-many.html"></iframe>
+        <iframe id="demo_many-1" src="./demos/many-1.html"></iframe>
+        <iframe id="demo_many-many" src="./demos/many-many.html"></iframe>
+        <!-- <iframe id="demo_nested" src="./demos/nested.html"></iframe> -->
+        <hr>
+        <br/><br/>
+        <h1>Options</h1>
+        <br/><br/>
+        <iframe id="demo_options-overview" src="./demos/options-overview.html"></iframe>
+        <hr>
+        <br/><br/>
+        <h1>Presets and styling</h1>
+        <br/><br/>
+        <iframe id="demo_presets-marker" src="./demos/presets-marker.html"></iframe>
+        <iframe id="demo_presets-border" src="./demos/presets-border.html"></iframe>
+        <iframe id="demo_presets-overlay" src="./demos/presets-overlay.html"></iframe>
+    </div>
+
+    <script>
+        document.querySelectorAll('iframe').forEach(function (item) {
+            item.addEventListener('load', function () {
+                item.height = item.contentWindow.document.body.scrollHeight;
+            });
+        });
+    </script>
+    
+    <div class="toc">
+        <ul>
+            <h5>Usage, structure, and relations</h5>
+            <li><a href="#demo_1-1">Single activator for single element</a></li>
+            <li><a href="#demo_1-many">Single activator for multiple elements</a></li>
+            <li><a href="#demo_many-1">Multiple activators for the same element</a></li>
+            <li><a href="#demo_many-many">Multiple activators and highlighted elements</a></li>
+            <!-- <li><a href="#demo_nested">Nested activators and highlight elements</a></li> -->
+
+            <h5>Options</h5>
+            <li><a href="#demo_options-overview">Options</a></li>
+            
+            <h5>Presets and styling</h5>
+            <li><a href="#demo_presets-marker">Marker</a></li>
+            <li><a href="#demo_presets-border">Marker</a></li>
+            <li><a href="#demo_presets-overlay">Marker</a></li>
+        </ul>
+    </div>
+</body>
+
+
+
+</html>
