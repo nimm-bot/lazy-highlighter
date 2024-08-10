@@ -1,46 +1,40 @@
 ## About the widget
-Lazy highlighter is a lightweight widget for highlighting HTML elements.
-
-Widget's uses include, but are not limited to:
-* Basic highlight effects;
-* Tooltips;
-* Page tours;
-* Etc.
+Lazy highlighter is a vanilla JS library for highlighting HTML elements.
 
 ## Installation
 Include `lazy-highlighter.js` and `lazy-highlighter.css` files from `src` directory in Your project.
 
 ```
-<script src="path_to_file/lazy-highlighter.js" type="text/javascript"></script>
-<link rel="path_to_file/lazy-highlighter.css"/>
+<script src="{directory_path}/lazy-highlighter.js" type="text/javascript"></script>
+<link href="{directory_path}/lazy-highlighter.css" rel="stylesheet">
 ```
 
 ## Usage
-All related activator and activated elements must have a matching `data-lazy-highlighter-id` attribute.
-__Activators__ (which fire the event), must also have a `data-lazy-highlighter-activator` attribute. Its value is irrelevant.
+HTML:
+__Activators__ (which fire the event) must have `data-lazy-highlighter-activator` attribute, matching the __affected__ elements' `data-lazy-highlighter-id`.
+
+
+Activators can highlight the affected elements anywhere in the same document.
 
 Single __activator__ can highlight multiple HTML elements, as well as single __highlighted__ element can be influenced by multiple activators.
 
 HTML example:
 ```
-<script src="lazy-highlighter.js" type="text/javascript"></script>
-<link rel="lazy-highlighter.css"/>
-
-<div>
-    <span data-lazy-highlighter-activator data-lazy-highlighter-id="demo">
-        Hover on me!
-    </span>
-</div>
-<div>
-    <span data-lazy-highlighter-id="demo">
+<span data-lazy-highlighter-activator="demo">Hover on me to highlight a block below.</span>
+<div data-lazy-highlighter-id="demo">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+    dolore magna aliqua...
 </div>
 ```
 
-JS example:
+JS:
+The following snippet should be included at the bottom of HTML document. 
 ```
 window.addEventListener('load', function () {
-    LazyHighlighter.initialize();
-});
+        document.querySelectorAll('[data-lazy-highlighter-activator]').forEach(function (elem) {
+            new LazyHighlighter(elem);
+        });
+    });
 ```
 
 More examples can be found at `demo.html`.
