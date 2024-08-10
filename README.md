@@ -17,7 +17,6 @@ __Activators__ (which fire the event) must have `data-lazy-highlighter-activator
 
 Activators can highlight the affected elements anywhere in the same document.
 
-Single __activator__ can highlight multiple HTML elements, as well as single __highlighted__ element can be influenced by multiple activators.
 
 HTML example:
 ```
@@ -39,4 +38,4 @@ window.addEventListener('load', function () {
     });
 ```
 
-More examples can be found at `demo.html`.
+For specific use cases and options please see `demo.html`.
