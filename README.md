@@ -11,6 +11,7 @@ Include `lazy-highlighter.js` and `lazy-highlighter.css` files from `src` direct
 
 ## Usage
 HTML:
+
 __Activators__ (which fire the event) must have `data-lazy-highlighter-activator` attribute, matching the __affected__ elements' `data-lazy-highlighter-id`.
 
 
@@ -28,6 +29,7 @@ HTML example:
 ```
 
 JS:
+
 The following snippet should be included at the bottom of HTML document. 
 ```
 window.addEventListener('load', function () {
