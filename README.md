@@ -15,7 +15,7 @@ Once necessary files are included, append script with this snippet:
 ```
 window.addEventListener('load', function () {
     document.querySelectorAll('[data-lazy-highlighter-activator]').forEach(function (elem) {
-        new LazyHighlighter(<span data-lazy-highlighter-id="arg1">elem</span>, <span data-lazy-highlighter-id="arg2">{}</span>);
+        new LazyHighlighter(elem, {});
     });
 });
 ```
