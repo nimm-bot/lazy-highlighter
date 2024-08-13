@@ -20,9 +20,9 @@ class LazyHighlighter {
         },
         // HTML to wrap highlighted element. If provided, MUST contain a {highlighted} substring as substitute for highlighted element. 
         // Passing empty string or '{highlighted}' removes the wrapper.
-        'template': '<div class="lazy-highlighter-container"><div data-lazy-highlighter-background></div>{highlighted}</div>',
+        'template': '<div class="lh-default lazy-highlighter-container"><div data-lazy-highlighter-background></div>{highlighted}</div>',
 
-        // Sets highlight style to one of default presets.
+        // Sets highlight style to one of default presets: DEFAULT, BORDERED, MARKER
         'preset': ''
     };
 
@@ -44,6 +44,7 @@ class LazyHighlighter {
      * Preset templates. List can be extended.
      */
     #defaultPresets = {
+        'DEFAULT': '<div class="lh-default lazy-highlighter-container"><div data-lazy-highlighter-background></div>{highlighted}</div>',
         'MARKER': '<div class="lh-marker lazy-highlighter-container"><div data-lazy-highlighter-background></div>{highlighted}</div>',
         'BORDER': '<div class="lh-border lazy-highlighter-container"><div data-lazy-highlighter-background></div>{highlighted}</div>'
     }
@@ -55,23 +56,32 @@ class LazyHighlighter {
      * @param {*} options (JSON object) - overwrites default options.
      */
     constructor(elem, options = {}) {
+        if (!(elem instanceof HTMLElement) || elem.getAttribute('data-lazy-highlighter-activator') === undefined) {
+            console.warn('LazyHighlighter instance can only be assigned to HTML Elements with data-lazy-highlighter-activator attribute.');
+
+            return false;
+        }
+
         if (elem.LazyHighlighter !== undefined) {
             console.warn('LazyHighlighter instance is already present.');
-        } else {
-            let highlighter = this;
 
-            this.elem = elem;
-            this.#elementsToHighlight = this.elem.closest('body').querySelectorAll(
-                '[data-lazy-highlighter-id*="' + this.elem.getAttribute('data-lazy-highlighter-activator') + '"]'
-            );
-
-            Object.keys(options).forEach(function (key) {
-                highlighter.options[key] = options[key];
-            });
-
-            this.elem.LazyHighlighter = highlighter;
-            this.elem.LazyHighlighter.initialize();
+            return false;
         }
+
+        let highlighter = this;
+        this.elem = elem;
+        this.#elementsToHighlight = this.elem.closest('body').querySelectorAll(
+            '[data-lazy-highlighter-id*="' + this.elem.getAttribute('data-lazy-highlighter-activator') + '"]'
+        );
+
+        Object.keys(options).forEach(function (key) {
+            highlighter.options[key] = options[key];
+        });
+
+        this.elem.LazyHighlighter = highlighter;
+        this.elem.LazyHighlighter.initialize();
+
+        return true;
     }
 
     /**
@@ -111,49 +121,53 @@ class LazyHighlighter {
      * Wraps affected elements into container based on ['options']['template'] attribute
      */
     #wrapHighlighted() {
-        if (this.options.template !== '' && this.options.template !== '{highlighted}') {
-            let template = this.options.template;
+        if (this.options.template === '') {
+            return true;
+        }
 
-            if (this.options.preset !== '' && Object.keys(this.#defaultPresets).includes(this.options.preset)) {
-                template = this.#defaultPresets[this.options.preset];
+        // Use preset template, if [options][preset] is defined and matches one of default presets. Otherwise use HTML from [options][template].
+        let template = this.options.preset !== '' && Object.keys(this.#defaultPresets).includes(this.options.preset)
+            ? this.#defaultPresets[this.options.preset]
+            : this.options.template;
+
+        this.#elementsToHighlight.forEach(function (item) {
+            // Only wrap elements without container. In this case, return acts as continue;
+            if (item.closest('data-lazy-highlighter-container') !== null) {
+                return true;
             }
 
-            this.#elementsToHighlight.forEach(function (item) {
-                if (item.parentNode.getAttribute('data-lazy-highlighter-container') === null) {
-                    let temp = template.replace('{highlighted}', '<div class="dummy"></div>');
-                    let wrapper = null;
+            // Parse HTML template as DOM and append root element, if necessary.
+            let parsedTemplate = (new DOMParser()).parseFromString(template.replace('{highlighted}', '<div class="dummy"></div>'), 'text/html').getRootNode().body;
+            let wrapper = null;
 
-                    // Parse HTML template as DOM and append root element, if necessary.
-                    let parsedTemplate = (new DOMParser()).parseFromString(temp, 'text/html').getRootNode().body;
+            if (parsedTemplate.childElementCount > 1) {
+                let container = document.createElement('div');
 
-                    if (parsedTemplate.childElementCount > 1) {
-                        let container = document.createElement('div');
+                parsedTemplate.children.forEach(function (child) {
+                    container.append(child);
+                })
 
-                        parsedTemplate.children.forEach(function (child) {
-                            container.append(child);
-                        })
+                wrapper = container;
+            } else {
+                wrapper = parsedTemplate.firstChild;
+            }
 
-                        wrapper = container;
-                    } else {
-                        wrapper = parsedTemplate.firstChild;
-                    }
+            // Insert wrapper into document to set necessary attributes and classes.
+            item.parentNode.insertBefore(wrapper, item);
+            wrapper = item.previousSibling;
+            wrapper.setAttribute('data-lazy-highlighter-container', true)
 
-                    // Insert wrapper into document to set necessary attributes and classes.
-                    item.parentNode.insertBefore(wrapper, item);
-                    wrapper = item.previousSibling;
-                    wrapper.setAttribute('data-lazy-highlighter-container', true)
+            if (['inline', 'inline-block'].includes(window.getComputedStyle(item).display)) {
+                wrapper.classList.add('lh-inline-container');
+            }
 
-                    if (['inline', 'inline-block'].includes(window.getComputedStyle(item).display)) {
-                        wrapper.classList.add('lh-inline-container');
-                    }
+            // Replace placeholder with element to be highlighted.
+            let dummy = wrapper.querySelector('.dummy');
+            wrapper.insertBefore(item, dummy);
+            wrapper.removeChild(dummy);
+        });
 
-                    // Replace placeholder with element to be highlighted.
-                    let dummy = wrapper.querySelector('.dummy');
-                    wrapper.insertBefore(item, dummy);
-                    wrapper.removeChild(dummy);
-                }
-            });
-        }
+        return true;
     }
 
     /**
@@ -225,6 +239,8 @@ class LazyHighlighter {
      * @param {*} callback 
      */
     setEvent(key, callback) {
+        if (Object.keys(this.#eventMap).contains(key))
+
         this.options.events[key] = callback;
     }
 
@@ -235,7 +251,7 @@ class LazyHighlighter {
      * @param {*} value 
      */
     setOption(key, value) {
-        if (key === 'options') {
+        if (key === 'events') {
             console.warn("setOption() method cannot be used for assigning events! Please use setEvent() instead. Don't forget to refresh() afterwards!");
         } else {
             this.options[key] = value;
@@ -267,7 +283,7 @@ class LazyHighlighter {
             _this.options.events.mouseover(e);
         }
     }
-    
+
     /**
      * Wrapper function for mouseleave event.
      * @param {*} e 

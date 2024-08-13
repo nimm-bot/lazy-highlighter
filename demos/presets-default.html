@@ -4,12 +4,12 @@
 <script>
     window.addEventListener('load', function () {
         document.querySelectorAll('[data-lazy-highlighter-activator]').forEach(function (elem) {
-            new LazyHighlighter(elem, { 'preset': 'MARKER' });
+            new LazyHighlighter(elem, {});
         });
     });
 </script>
 
-<h2>Marker</h2>
+<h2>Default</h2>
 <div class="w100 mb-15">
     <span data-lazy-highlighter-activator="marker-self" data-lazy-highlighter-id="marker-self">Hover on this text to
         highlight it.</span>
@@ -28,7 +28,7 @@
         <div class="js">
             <pre>
 document.querySelectorAll('[data-lazy-highlighter-activator]').forEach(function (elem) {
-    new LazyHighlighter(elem, {'preset': 'MARKER'});
+    new LazyHighlighter(elem, {});
 });</pre>
             <div class="language">JS</div>
         </div>

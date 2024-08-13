@@ -8,33 +8,75 @@
         });
     });
 </script>
-<h2>Multiple activators for the same element</h2>
+<h2>Multiple activators for a single element</h2>
+<h4>Example 1:</h4>
 <div class="example-wrapper">
-    <div class="w50">
-        Hover on
-        <span class="highlighter-activator" data-lazy-highlighter-activator="demo_many-1" data-lazy-highlighter-id="activator">me</span>, or 
-        <span class="highlighter-activator" data-lazy-highlighter-activator="demo_many-2" data-lazy-highlighter-id="activator">me</span>, or 
-        <span class="highlighter-activator" data-lazy-highlighter-activator="demo_many-1" data-lazy-highlighter-id="activator">me</span>
-        to highlight a box!
+    <div class="w40">
+        <div>
+            Hover <b data-lazy-highlighter-activator="demo_many-1">here</b>, 
+            <b data-lazy-highlighter-activator="demo_many-1">here</b>, or 
+            <b data-lazy-highlighter-activator="demo_many-1">here</b>, to highlight a box below.
+        </div>
+        <br/>
+        <br/>
+        <div class="w90">
+            <div class="box" data-lazy-highlighter-id="demo_many-1">Box to highlight</div>
+        </div>
     </div>
-    <div class="w50">
-        <div data-lazy-highlighter-id="demo_many-1 demo_many-2">
-            Multiple <span data-lazy-highlighter-activator="activator">activators</span> can highlight the same element by having a matching <code>data-lazy-highlighter-activator</code> attribute.
-            <br/><br/>
-            Alternatively, highlighted element can have a joint <br/><code>data-lazy-highlighter-id</code> property, consisting of multiple space-separated activator properties.
+    <div class="w60">
+        <div class="html">
+            <pre>
+&lt;div&gt;
+    Hover 
+    &lt;b data-lazy-highlighter-activator="demo_many-1"&gt;here</b>, 
+    &lt;b data-lazy-highlighter-activator="demo_many-1"&gt;here&lt;/b&gt;, or 
+    &lt;b data-lazy-highlighter-activator="demo_many-1"&gt;here&lt;/b&gt;, to highlight a box below.
+&lt;/div&gt;
+&lt;div class="box" data-lazy-highlighter-id="demo_many-1"&gt;  Box to highlight  &lt;/div&gt;</pre>
+            <div class="language">HTML</div>
         </div>
     </div>
 </div>
-<div>
-    <pre>
-&lt;div style="width:50%"&gt;
-    Hover on 
-    &lt;span <code class="activator">data-lazy-highlighter-activator</code>="<code class="activator bold">demo_1-many</code>"&gt;me&lt;/span&gt;
-    to highlight multiple boxes!
+
+<h4>Example 2:</h4>
+<div class="example-wrapper">
+    <div class="w40">
+        <div class="mb-15">
+            Hover <b data-lazy-highlighter-activator="demo_a_b">here</b> to highlight boxes A and B. 
+        </div>
+        <div class="mb-15">
+            Hover <b data-lazy-highlighter-activator="demo_b_c">here</b> to highlight boxes B and C. 
+        </div>
+        <div>
+            Hover <b data-lazy-highlighter-activator="demo_a_c">here</b> to highlight boxes A and C. 
+        </div>
+        <br/>
+        <br/>
+        <div class="w90">
+            <div class="flex">
+                <div class="box" data-lazy-highlighter-id="demo_a_b demo_a_c">&nbsp;A&nbsp;</div>
+                <div class="box" data-lazy-highlighter-id="demo_b_c demo_a_b">&nbsp;B&nbsp;</div>
+                <div class="box" data-lazy-highlighter-id="demo_b_c demo_a_c">&nbsp;C&nbsp;</div>
+            </div>
+        </div>
+    </div>
+    <div class="w60">
+        <div class="html">
+            <pre>
+&lt;div&gt;
+    Hover &lt;b data-lazy-highlighter-activator="demo_a_b"&gt;here&lt;/b&gt; to highlight boxes A and B. 
 &lt;/div&gt;
-&lt;div style="width:50%"&gt;
-    &lt;div <code class="highlighted">data-lazy-highlighter-id</code>="<code class="highlighted bold">demo_1-many</code>"&gt;Box 1 has a pink border.&lt;/div&gt;
-    &lt;div <code class="highlighted">data-lazy-highlighter-id</code>="<code class="highlighted bold">demo_1-many</code>"&gt;Box 2 has a blue border.&lt;/div&gt;
-    &lt;div <code class="highlighted">data-lazy-highlighter-id</code>="<code class="highlighted bold">demo_1-many</code>"&gt;Box 3 has a yellow border.&lt;/div&gt;
-&lt;/div&gt;</pre>
+&lt;div&gt;
+    Hover &lt;b data-lazy-highlighter-activator="demo_b_c"&gt;here&lt;/b&gt; to highlight boxes B and C. 
+&lt;/div&gt;
+&lt;div&gt;
+    Hover &lt;b data-lazy-highlighter-activator="demo_a_c"&gt;here&lt;/b&gt; to highlight boxes A and C. 
+&lt;/div&gt;
+
+&lt;div class="box" data-lazy-highlighter-id="demo_a_b demo_a_c"&gt;&nbsp;A&nbsp;&lt;/div&gt;
+&lt;div class="box" data-lazy-highlighter-id="demo_b_c demo_a_b"&gt;&nbsp;B&nbsp;&lt;/div&gt;
+&lt;div class="box" data-lazy-highlighter-id="demo_b_c demo_a_c"&gt;&nbsp;C&nbsp;&lt;/div&gt;</pre>
+            <div class="language">HTML</div>
+        </div>
+    </div>
 </div>
