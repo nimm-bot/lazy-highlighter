@@ -1,5 +1,7 @@
 # LazyHighlighter initialization and options
 
+Lazy highlighter is a simple vanilla JS library for pointing out HTML elements on mouse events.
+
 ## Initialization
 
 To start using Lazy Highlighter library, include files from src folder in Your HTML code:
